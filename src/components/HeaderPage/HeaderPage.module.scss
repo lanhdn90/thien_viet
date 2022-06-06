@@ -1,0 +1,11 @@
+.link_header {
+  color: #fff;
+  font: {
+    size: 16px;
+    weight: bold;
+  }
+  &:hover,
+  &:active {
+    color: aqua;
+  }
+}
