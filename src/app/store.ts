@@ -6,12 +6,14 @@ import {
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
 import authReducer from "../features/Login/authSlice";
+import productReducer from "../features/Products/ProductSlice";
 import { history } from "../utils";
 import rootSaga from "./rootSaga";
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
+  product: productReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

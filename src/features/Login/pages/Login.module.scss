@@ -5,6 +5,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  
 }
 
 .content {
@@ -12,13 +13,14 @@
   margin: 30px auto;
   background: #fff;
   backdrop-filter: blur(50px);
+  border-radius: 10px;
 }
 
 .image_company {
   margin: 15% auto 10%;
   width: 120px;
   height: 120px;
-  background-image: url("../../../Images/1594443390252.png");
+  background-image: url("../../../Images/1594443390252.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
