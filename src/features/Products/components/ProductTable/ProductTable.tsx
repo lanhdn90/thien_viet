@@ -1,20 +1,41 @@
-import { Button, Table } from "antd";
+import { Button, Image, notification, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import moment from "moment";
 import * as React from "react";
-import { useAppSelector } from "../../../../app/hooks";
-import { Product, ProductType } from "../../../../models";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { ListParams, Product, ProductType } from "../../../../models";
 import { convertProductType } from "../../../../utils/common";
-import { selectProductList } from "../../ProductSlice";
+import { productActions, selectProductList } from "../../ProductSlice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
+import { ProductApi } from "../../../../api/productApi";
 export interface ProductTableProps {
   productType: ProductType[];
+  filter: ListParams;
+  setProduct: (object: Product) => void;
+  showDrawer: () => void;
 }
 
 export default function ProductTable(props: ProductTableProps) {
+  const { productType, filter, setProduct, showDrawer } = props;
+  const dispatch = useAppDispatch();
   const productList = useAppSelector(selectProductList);
-  const { productType } = props;
+
+  const openNotificationWithIcon = (type: string, message: string) => {
+    if (type === "success" || type === "error")
+      notification[type]({ message: message });
+    return;
+  };
+
+  const deletedProduct = async (id: number) => {
+    try {
+      await ProductApi.remove(id);
+      dispatch(productActions.fetchProductList(filter));
+      openNotificationWithIcon("success", "Remove product successfully");
+    } catch (error) {
+      openNotificationWithIcon("error", "Remove product Failed!");
+    }
+  };
 
   const columns: ColumnsType<Product> = [
     {
@@ -25,15 +46,35 @@ export default function ProductTable(props: ProductTableProps) {
       ellipsis: true,
     },
     {
+      key: "image",
+      width: "10%",
+      title: "Image",
+      dataIndex: "image",
+      ellipsis: true,
+      align: "center",
+      render: (number: string, record: Product) => (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image width={50} src={`/${number}`} />
+        </div>
+      ),
+    },
+    {
       key: "name",
       width: "30%",
       title: "Name",
       dataIndex: "name",
       ellipsis: true,
     },
+
     {
       key: "groupId",
-      width: "20%",
+      width: "15%",
       title: "Type",
       dataIndex: "groupId",
       ellipsis: true,
@@ -42,12 +83,12 @@ export default function ProductTable(props: ProductTableProps) {
       ),
     },
     {
-        key: "employee",
-        width: "20%",
-        title: "Employee",
-        dataIndex: "employee",
-        ellipsis: true,
-      },
+      key: "employee",
+      width: "15%",
+      title: "Employee",
+      dataIndex: "employee",
+      ellipsis: true,
+    },
     {
       title: "Created time",
       dataIndex: "createdAt",
@@ -60,7 +101,7 @@ export default function ProductTable(props: ProductTableProps) {
       title: "Action",
       width: "10%",
       align: "center",
-      render: () => (
+      render: (record: Product) => (
         <div
           style={{
             display: "flex",
@@ -77,8 +118,11 @@ export default function ProductTable(props: ProductTableProps) {
               width: "24px",
               height: "24px",
               cursor: "pointer",
-              background: "yellow",
-              borderRadius: "2px",
+              color: "#1890ff",
+            }}
+            onClick={async() => {
+              await setProduct(record);
+              showDrawer();
             }}
           >
             <TbEdit size={20} />
@@ -88,35 +132,32 @@ export default function ProductTable(props: ProductTableProps) {
             size={"small"}
             danger
             icon={<RiDeleteBin5Line size={20} />}
+            onClick={() => {
+              record.id && deletedProduct(record.id);
+            }}
           />
         </div>
       ),
     },
-
-    // {
-    //   title: "Severity",
-    //   dataIndex: "severity",
-    //   render: (text: string, record: alarmInfo) => (
-    //     <div
-    //       className={clsx(style.severity, {
-    //         [style.severity_critical]: text.indexOf("CRITICAL") !== -1,
-    //         [style.severity_warning]: text.indexOf("WARNING") !== -1,
-    //         [style.unack]: !record.acknowledged === true,
-    //       })}
-    //     >
-    //       {text}
-    //     </div>
-    //   ),
-    // },
   ];
   return (
     <Table
-      //   rowSelection={{ ...rowSelection }}
+      bordered
       columns={columns}
       dataSource={productList}
       pagination={false}
       scroll={{ y: "calc(100vh - 330px)" }}
       style={{ padding: "20px" }}
+      // onRow={(record) => {
+      //   return {
+      //     onClick: (e) => {
+      //       console.log(
+      //         "Log: ~ file: ProductTable.tsx ~ line 131 ~ ProductTable ~ record",
+      //         record
+      //       );
+      //     },
+      //   };
+      // }}
     ></Table>
   );
 }

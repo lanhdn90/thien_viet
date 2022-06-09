@@ -1,7 +1,7 @@
 import { ProductApi } from "./../../api/productApi";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { productActions } from "./ProductSlice";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, debounce, put, takeLatest } from "redux-saga/effects";
 import { ListParams, ListResponse, Product, ProductType } from "../../models";
 import { groupApi } from "../../api/productType";
 
@@ -22,14 +22,19 @@ function* fetchProductTypeList(action: PayloadAction<ListParams>) {
       groupApi.getAll,
       action.payload
     );
-    console.log('Log: ~ file: ProductSaga.ts ~ line 25 ~ function*fetchProductTypeList ~ response', response);
     yield put(productActions.fetchProductTypeListSuccess(response));
   } catch (error) {
     yield put(productActions.fetchProductListFailed());
   }
 }
 
+function* handleSearchDebounce(action: PayloadAction<ListParams>) {
+  yield put(productActions.setFilter(action.payload));
+}
+
 export default function* productSaga() {
   yield takeLatest(productActions.fetchProductList, fetchProductList);
   yield takeLatest(productActions.fetchProductTypeList, fetchProductTypeList);
+  yield debounce(500, productActions.setFilterWithDebounce.type, handleSearchDebounce);
+
 }
