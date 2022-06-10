@@ -1,3 +1,5 @@
+import { UploadFile } from "antd/es/upload/interface";
+
 export interface Product {
   key?: number;
   id?: number;
@@ -6,6 +8,7 @@ export interface Product {
   image: string;
   createdAt?: number;
   employee?: string;
+  listFile?: UploadFile[];
 }
 export interface ProductType {
   id: number;
