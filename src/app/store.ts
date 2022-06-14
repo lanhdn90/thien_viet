@@ -1,11 +1,13 @@
 import {
   Action,
-  combineReducers, configureStore,
-  ThunkAction
+  combineReducers,
+  configureStore,
+  ThunkAction,
 } from "@reduxjs/toolkit";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
 import authReducer from "../features/Login/authSlice";
+import storeReducer from "../features/Mark/StoreSlice";
 import productReducer from "../features/Products/ProductSlice";
 import { history } from "../utils";
 import rootSaga from "./rootSaga";
@@ -14,6 +16,7 @@ const rootReducer = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
   product: productReducer,
+  stores: storeReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

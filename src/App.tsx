@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { PrivateRoute } from "./components";
 import Login from "./features/Login/pages/Login";
-import Mark from "./features/Mark/Mark";
+import Mark from "./features/Mark/pages/Mark";
 import Products from "./features/Products/pages/Products";
 import Programs from "./features/Programs/Programs";
 import Report from "./features/Report/Report";

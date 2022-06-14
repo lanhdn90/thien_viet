@@ -1,6 +1,7 @@
 export interface Account {
   username: string;
   password: string;
+  role?: string;
 }
 
 export interface LoginResponse {
@@ -17,6 +18,6 @@ export interface UserInfo {
   customer_id?: string;
   tenant_id?: string;
   email?: string;
-  status?: 'enabled' | 'disable';
+  status?: "enabled" | "disable";
   created_ts?: number;
 }

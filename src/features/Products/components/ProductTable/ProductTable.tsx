@@ -196,8 +196,8 @@ export default function ProductTable(props: ProductTableProps) {
             },
           }}
         >
-          {Images.map((item) => (
-            <Image src={`/${item}`} />
+          {Images.map((item, index) => (
+            <Image key={index} src={`/${item}`} />
           ))}
         </Image.PreviewGroup>
       </div>

@@ -12,18 +12,18 @@ function* handleLogin(action: PayloadAction<Account>) {
     // localStorage.setItem("refresh_token", "res.refresh_token");
     // yield put(authActions.loginSuccess(res));
     // yield put(push("/Programs"));
-    const res: Account = yield call(authApi.getAccountInfo);
+    const res: Account[] = yield call(authApi.getAccountInfo, action.payload);
     if (
-      res.username === action.payload.username &&
-      res.password === action.payload.password
+      res[0].username === action.payload.username &&
+      res[0].password === action.payload.password
     ) {
       localStorage.setItem("access_token", "res.token");
       localStorage.setItem("refresh_token", "res.refresh_token");
-      yield put(
-        authActions.loginSuccess({
-          token: "string",
-          refresh_token: "string",
-        })
+      localStorage.setItem("role", res[0].role ? res[0].role : "");
+      yield put(authActions.loginSuccess(res[0]));
+      console.log(
+        "Log: ~ file: authSaga.ts ~ line 23 ~ function*handleLogin ~ res[0]",
+        res[0]
       );
       yield put(push("/Programs"));
     } else {

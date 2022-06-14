@@ -1,4 +1,4 @@
-import { Account } from '../models';
+import { Account, ListParams } from '../models';
 import axiosClient from './axiosClient';
 
 const urlApi = '/api';
@@ -11,8 +11,8 @@ export const authApi = {
   //   const url = `${urlApi}/user`;
   //   return axiosClient.get(url);
   // },
-  getAccountInfo(): Promise<Account> {
+  getAccountInfo(params: ListParams): Promise<Account[]> {
     const url = `${urlApi}/user`;
-    return axiosClient.get(url);
+    return axiosClient.get(url,{params});
   },
 };
