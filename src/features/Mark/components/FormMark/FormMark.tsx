@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../../../app/hooks";
 import { ListParams, Store } from "../../../../models";
 import { storeActions } from "../../StoreSlice";
 import style from "./FormMark.module.scss";
+
 export interface FormMarkProps {
   record: Store;
   filter: ListParams;
@@ -16,11 +17,12 @@ export default function FormMark(props: FormMarkProps) {
   const dispatch = useAppDispatch();
   const { Option } = Select;
   const { record, filter, handleVisibleChange } = props;
-
+  const [disabled, setDisabled] = React.useState<boolean>(false);
   const editResult = async (values: any) => {
     let newObject = {
       ...record,
       result: values.result,
+      review: false,
     };
     await storeApi.update(newObject);
     await dispatch(storeActions.fetchStoreList(filter));
@@ -43,7 +45,7 @@ export default function FormMark(props: FormMarkProps) {
         >
           <Select
             style={{
-              width: "200px",
+              width: "300px",
             }}
             size="large"
             placeholder={
@@ -58,9 +60,31 @@ export default function FormMark(props: FormMarkProps) {
               </div>
             }
           >
-            <Option value={1}>Achieved</Option>
+            <Option value={1}>
+              {/* <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <FcExpired size={20} style={{ marginRight: "20px" }} />
+                Achieved
+              </div> */}
+              Achieved
+            </Option>
             <Option value={0}>Not achieved</Option>
-            <Option value={99}>Expired</Option>
+            <Option value={99}>
+              {/* <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <FcExpired size={20} style={{ marginRight: "20px" }} />
+                Expired
+              </div> */}
+              Expired
+            </Option>
           </Select>
         </Form.Item>
       </Form>
@@ -69,9 +93,19 @@ export default function FormMark(props: FormMarkProps) {
           onClick={() => {
             handleVisibleChange(false);
             form.resetFields();
+            setDisabled(false);
           }}
         >
           Cancel
+        </Button>
+        <Button
+          className={style.save_btn}
+          disabled={disabled}
+          danger
+          type="primary"
+          onClick={() => setDisabled(true)}
+        >
+          Send Image
         </Button>
         <Button
           className={style.save_btn}

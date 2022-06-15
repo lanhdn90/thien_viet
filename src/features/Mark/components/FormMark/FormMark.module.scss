@@ -1,5 +1,5 @@
 .root {
-  width: 200px;
+  width: 300px;
 }
 
 .input {
@@ -10,8 +10,9 @@
 .group_btn {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-around;
 }
+
 .save_btn {
-  margin-left: 20px;
+  // margin-left: 20px;
 }

@@ -4,6 +4,7 @@ import { BiSearchAlt } from "react-icons/bi";
 import { ListParams, Program } from "../../../../models";
 
 export interface MarkFilterProps {
+  isReport: boolean;
   filter: ListParams;
   programs: Program[];
   onChange?: (newFilter: ListParams) => void;
@@ -13,7 +14,7 @@ export interface MarkFilterProps {
 export default function MarkFilter(props: MarkFilterProps) {
   const { Option } = Select;
   const [form] = Form.useForm();
-  const { programs, filter, onChange, onSearchChange } = props;
+  const { isReport, programs, filter, onChange, onSearchChange } = props;
 
   const handelSearchChange = (str: string) => {
     if (!onSearchChange) return;
@@ -35,13 +36,22 @@ export default function MarkFilter(props: MarkFilterProps) {
     onChange(newFilter);
   };
 
-  const handleSortChange = (value: string) => {
+  const handleSortChange = (value: string | number) => {
     if (!onChange) return;
-    const newFilter: ListParams = {
-      ...filter,
-      _page: 1,
-      typeOfDisplay: value
-    };
+    let newFilter: ListParams;
+    if (isReport) {
+      newFilter = {
+        ...filter,
+        _page: 1,
+        result: value !== 2 ? value : 0,
+      };
+    } else {
+      newFilter = {
+        ...filter,
+        _page: 1,
+        typeOfDisplay: value,
+      };
+    }
     onChange(newFilter);
   };
 
@@ -51,6 +61,7 @@ export default function MarkFilter(props: MarkFilterProps) {
       ...filter,
       _page: 1,
       typeOfDisplay: undefined,
+      result: undefined,
       programsId: undefined,
       name_like: undefined,
     };
@@ -103,18 +114,32 @@ export default function MarkFilter(props: MarkFilterProps) {
             </Select>
           </Form.Item>
           <Form.Item name="setup">
-            <Select
-              style={{
-                width: "150px",
-              }}
-              size="large"
-              placeholder="Setup"
-            >
-              <Option value="Diamond">Diamond</Option>
-              <Option value="Gold">Gold</Option>
-              <Option value="Silver">Silver</Option>
-              <Option value="Bronze">Bronze</Option>
-            </Select>
+            {!isReport ? (
+              <Select
+                style={{
+                  width: "150px",
+                }}
+                size="large"
+                placeholder="Setup"
+              >
+                <Option value="Diamond">Diamond</Option>
+                <Option value="Gold">Gold</Option>
+                <Option value="Silver">Silver</Option>
+                <Option value="Bronze">Bronze</Option>
+              </Select>
+            ) : (
+              <Select
+                style={{
+                  width: "150px",
+                }}
+                size="large"
+                placeholder="Result"
+              >
+                <Option value={2}>Not achieved</Option>
+                <Option value={1}>Achieved</Option>
+                <Option value={99}>Expired</Option>
+              </Select>
+            )}
           </Form.Item>
         </Form>
       </Col>

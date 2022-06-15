@@ -8,7 +8,6 @@ export interface ProductFilterProps {
   productType: ProductType[];
   onChange?: (newFilter: ListParams) => void;
   onSearchChange?: (newFilter: ListParams) => void;
-
 }
 
 export default function ProductFilter(props: ProductFilterProps) {
@@ -75,6 +74,8 @@ export default function ProductFilter(props: ProductFilterProps) {
           wrapperCol={{ span: 24 }}
           onValuesChange={(changedValues, allValues) => {
             if (changedValues.search) {
+              handelSearchChange(changedValues.search);
+            } else {
               handelSearchChange(changedValues.search);
             }
             if (changedValues.product_type) {

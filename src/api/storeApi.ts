@@ -8,7 +8,7 @@ export const storeApi = {
     return axiosClient.get(urlApi, { params });
   },
   getStoreMark(params: ListParams): Promise<ListResponse<Store>> {
-    let url = `${urlApi}?result=0&result=99`;
+    let url = `${urlApi}?review=true`;
     return axiosClient.get(url, { params });
   },
   update(data: Partial<Store>): Promise<Store> {

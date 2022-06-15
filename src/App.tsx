@@ -6,7 +6,7 @@ import Login from "./features/Login/pages/Login";
 import Mark from "./features/Mark/pages/Mark";
 import Products from "./features/Products/pages/Products";
 import Programs from "./features/Programs/Programs";
-import Report from "./features/Report/Report";
+import Report from "./features/Report/pages/Report";
 
 function App() {
   return (

@@ -6,8 +6,9 @@ export interface StoreState {
   loading: boolean;
   list: Store[];
   filter: ListParams;
-  pagination: PaginationParams;
-  programs: Program[]
+  filterReport: ListParams;
+  pagination?: PaginationParams;
+  programs: Program[];
 }
 
 const initialState: StoreState = {
@@ -18,11 +19,11 @@ const initialState: StoreState = {
     _page: 1,
     _limit: 10,
   },
-  pagination: {
+  filterReport: {
     _page: 1,
     _limit: 10,
-    totalElement: 15,
   },
+  pagination: undefined,
 };
 
 const storeSlice = createSlice({
@@ -39,9 +40,15 @@ const storeSlice = createSlice({
     },
     fetchStoreList(state, action: PayloadAction<ListParams>) {
       state.loading = true;
+      state.pagination = undefined;
+      state.list = [];
+    },
+    fetchStoreMarkList(state, action: PayloadAction<ListParams>) {
+      state.loading = true;
+      state.pagination = undefined;
+      state.list = [];
     },
     fetchStoreListSuccess(state, action: PayloadAction<ListResponse<Store>>) {
-      // state.list = convertDataProduct(action.payload.data);
       state.list = action.payload.data;
       state.loading = false;
       state.pagination = action.payload.pagination;
@@ -52,7 +59,11 @@ const storeSlice = createSlice({
     setFilter(state, action: PayloadAction<ListParams>) {
       state.filter = action.payload;
     },
+    setFilterReport(state, action: PayloadAction<ListParams>) {
+      state.filterReport = action.payload;
+    },
     setFilterWithDebounce(state, action: PayloadAction<ListParams>) {},
+    setFilterMarkWithDebounce(state, action: PayloadAction<ListParams>) {},
   },
 });
 
@@ -61,10 +72,11 @@ export const storeActions = storeSlice.actions;
 export const selectStoreList = (state: RootState) => state.stores.list;
 export const selectStoreLoading = (state: RootState) => state.stores.loading;
 export const selectStoreFilter = (state: RootState) => state.stores.filter;
+export const selectStoreFilterReport = (state: RootState) =>
+  state.stores.filterReport;
 export const selectStorePagination = (state: RootState) =>
   state.stores.pagination;
-export const selectPrograms = (state: RootState) =>
-  state.stores.programs;
+export const selectPrograms = (state: RootState) => state.stores.programs;
 
 const storeReducer = storeSlice.reducer;
 export default storeReducer;

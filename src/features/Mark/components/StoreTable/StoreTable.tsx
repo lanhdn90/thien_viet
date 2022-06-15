@@ -2,11 +2,9 @@ import { Image, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import moment from "moment";
 import * as React from "react";
-import { TbEdit } from "react-icons/tb";
 import { useAppSelector } from "../../../../app/hooks";
 import { ListParams, Program, Store } from "../../../../models";
 import { convertProgramsType } from "../../../../utils/common";
-import { selectUserInfo } from "../../../Login/authSlice";
 import { selectStoreList } from "../../StoreSlice";
 import PopoverStore from "../PopoverStore/PopoverStore";
 import style from "./StoreTable.module.scss";
@@ -19,6 +17,8 @@ export default function StoreTable(props: StoreTableProps) {
   const { programs, filter } = props;
   const stores = useAppSelector(selectStoreList);
   const userInfo = localStorage.getItem("role");
+  const [visible, setVisible] = React.useState(false);
+  const [Images, setImages] = React.useState<string[]>([]);
 
   const columns: ColumnsType<Store> = [
     {
@@ -43,13 +43,21 @@ export default function StoreTable(props: StoreTableProps) {
             justifyContent: "center",
           }}
         >
-          <Image width={50} src={`/${number[0]}`} />
+          <Image
+            preview={{ visible: false }}
+            width={50}
+            src={`/${number[0]}`}
+            onClick={async () => {
+              await setImages(number);
+              setVisible(true);
+            }}
+          />
         </div>
       ),
     },
     {
       key: "name",
-      width: "15%",
+      width: "20%",
       title: "Name",
       dataIndex: "name",
       ellipsis: true,
@@ -80,7 +88,7 @@ export default function StoreTable(props: StoreTableProps) {
     {
       title: "Registration Date",
       dataIndex: "registrationDate",
-      width: "12%",
+      width: "15%",
       align: "center",
       render: (number: number, record: Store) => (
         <div>{moment(number).format("YYYY-MM-DD")}</div>
@@ -112,42 +120,6 @@ export default function StoreTable(props: StoreTableProps) {
           </div>
         ),
     },
-    {
-      title: "Action",
-      width: "8%",
-      align: "center",
-      render: (record: Store) => (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "24px",
-              height: "24px",
-              cursor: "pointer",
-              color: "#1890ff",
-            }}
-            onClick={async () => {
-              console.log(
-                "Log: ~ file: StoreTable.tsx ~ line 130 ~ onClick={ ~ record",
-                record
-              );
-              //   await setStore(record);
-              //   showDrawer();
-            }}
-          >
-            <TbEdit size={20} />
-          </div>
-        </div>
-      ),
-    },
   ];
   return (
     <>
@@ -159,6 +131,20 @@ export default function StoreTable(props: StoreTableProps) {
         scroll={{ y: "calc(100vh - 330px)" }}
         style={{ padding: "20px" }}
       />
+      <div style={{ display: "none" }}>
+        <Image.PreviewGroup
+          preview={{
+            visible,
+            onVisibleChange: (vis) => {
+              setVisible(vis);
+            },
+          }}
+        >
+          {Images.map((item, index) => (
+            <Image key={index} src={`/${item}`} />
+          ))}
+        </Image.PreviewGroup>
+      </div>
     </>
   );
 }
