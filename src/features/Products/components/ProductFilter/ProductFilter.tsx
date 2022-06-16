@@ -75,8 +75,6 @@ export default function ProductFilter(props: ProductFilterProps) {
           onValuesChange={(changedValues, allValues) => {
             if (changedValues.search) {
               handelSearchChange(changedValues.search);
-            } else {
-              handelSearchChange(changedValues.search);
             }
             if (changedValues.product_type) {
               handleTypeChange(changedValues.product_type);
@@ -118,8 +116,6 @@ export default function ProductFilter(props: ProductFilterProps) {
             >
               <Option value="id.asc">Id Asc</Option>
               <Option value="id.desc">Id Desc</Option>
-              {/* <Option value="name.asc">Name Asc</Option>
-              <Option value="name.desc">Name Desc</Option> */}
             </Select>
           </Form.Item>
         </Form>

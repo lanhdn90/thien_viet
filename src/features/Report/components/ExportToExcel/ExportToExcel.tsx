@@ -13,6 +13,7 @@ export interface ExportToExcelProps {
 export default function ExportToExcel(props: ExportToExcelProps) {
   const stores = useAppSelector(selectStoreList);
   const { programs } = props;
+  
   const exportToExcel = async () => {
     const myHeader = [
       "Id",
@@ -38,7 +39,6 @@ export default function ExportToExcel(props: ExportToExcelProps) {
     ];
     if (!stores && !programs) return;
     const arrayData = await convertDataReport(stores, programs);
-
     exportToExcelPro(arrayData, "Report", "Report", "Report", myHeader, widths);
   };
 

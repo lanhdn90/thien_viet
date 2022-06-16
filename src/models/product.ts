@@ -6,6 +6,7 @@ export interface Product {
   name: string;
   groupId: number;
   image: string;
+  imagesTraining?: string[];
   createdAt?: number;
   employee?: string;
   listFile?: UploadFile[];

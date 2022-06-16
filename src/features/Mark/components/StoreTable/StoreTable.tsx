@@ -4,7 +4,10 @@ import moment from "moment";
 import * as React from "react";
 import { useAppSelector } from "../../../../app/hooks";
 import { ListParams, Program, Store } from "../../../../models";
-import { convertProgramsType } from "../../../../utils/common";
+import {
+  convertDataResult,
+  convertProgramsType,
+} from "../../../../utils/common";
 import { selectStoreList } from "../../StoreSlice";
 import PopoverStore from "../PopoverStore/PopoverStore";
 import style from "./StoreTable.module.scss";
@@ -111,11 +114,7 @@ export default function StoreTable(props: StoreTableProps) {
                   value === 1 ? "#47db38" : value === 0 ? "red" : "#faad14",
               }}
             >
-              {value === 1
-                ? "Achieved"
-                : value === 0
-                ? "Not achieved"
-                : "--------"}
+              {convertDataResult(value)}
             </div>
           </div>
         ),
