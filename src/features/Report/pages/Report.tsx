@@ -1,15 +1,15 @@
-import { Button, Pagination } from "antd";
+import { Pagination } from "antd";
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ListParams } from "../../../models";
 import MarkFilter from "../../Mark/components/MarkFilter/MarkFilter";
-import StoreTable from "../../Mark/components/StoreTable/StoreTable";
 import {
   selectPrograms,
   selectStoreFilterReport,
   selectStorePagination,
-  storeActions,
+  storeActions
 } from "../../Mark/StoreSlice";
+import ExportToExcel from "../components/ExportToExcel/ExportToExcel";
 import ReportTable from "../components/ReportTable/ReportTable";
 import style from "./Report.module.scss";
 export interface ReportProps {}
@@ -67,13 +67,7 @@ export default function Report(props: ReportProps) {
       <div className={style.header_product_page}>
         <div className={style.label_page}>Report</div>
         <div className={style.btn_add}>
-          <Button
-            size="large"
-            type="primary"
-            // onClick={showDrawer}
-          >
-            Export
-          </Button>
+          <ExportToExcel programs={programs}/>
         </div>
       </div>
       <div className={style.filter_content}>

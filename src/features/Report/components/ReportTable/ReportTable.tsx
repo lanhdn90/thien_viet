@@ -1,10 +1,10 @@
-import { Image, Table } from "antd";
+import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import moment from "moment";
 import * as React from "react";
 import { useAppSelector } from "../../../../app/hooks";
 import { Program, Store } from "../../../../models";
-import { convertProgramsType } from "../../../../utils/common";
+import { convertDataResult, convertProgramsType } from "../../../../utils/common";
 import { selectStoreList } from "../../../Mark/StoreSlice";
 export interface ReportTableProps {
   programs: Program[];
@@ -31,15 +31,20 @@ export default function ReportTable(props: ReportTableProps) {
     },
     {
       key: "groupId",
-      width: "20%",
+      width: "15%",
       title: "Program",
       dataIndex: "programsId",
       ellipsis: true,
       render: (number: number, record: Store) => (
-        <div>{`${convertProgramsType(number, programs)} - ${
-          record.typeOfDisplay
-        }`}</div>
+        <div>{convertProgramsType(number, programs)}</div>
       ),
+    },
+    {
+      key: "typeOfDisplay",
+      width: "15%",
+      title: "Options",
+      dataIndex: "typeOfDisplay",
+      ellipsis: true,
     },
     {
       key: "employee",
@@ -62,7 +67,7 @@ export default function ReportTable(props: ReportTableProps) {
       width: "15%",
       render: (value: number, record: Store) => (
         <div>
-          {value === 1 ? "Achieved" : value === 0 ? "Not achieved" : "Expired"}
+          {convertDataResult(value)}
         </div>
       ),
     },
