@@ -14,4 +14,5 @@ export interface Product {
 export interface ProductType {
   id: number;
   label: string;
+  labelId: number;
 }

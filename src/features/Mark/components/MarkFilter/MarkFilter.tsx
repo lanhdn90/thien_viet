@@ -1,7 +1,9 @@
 import { Button, Col, Form, Input, Select } from "antd";
 import * as React from "react";
 import { BiSearchAlt } from "react-icons/bi";
+import { useAppSelector,useAppDispatch } from "../../../../app/hooks";
 import { ListParams, Program } from "../../../../models";
+import { productActions, selectOptions } from "../../../Products/ProductSlice";
 
 export interface MarkFilterProps {
   isReport: boolean;
@@ -14,7 +16,10 @@ export interface MarkFilterProps {
 export default function MarkFilter(props: MarkFilterProps) {
   const { Option } = Select;
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+
   const { isReport, programs, filter, onChange, onSearchChange } = props;
+  const options = useAppSelector(selectOptions);
 
   const handelSearchChange = (str: string) => {
     if (!onSearchChange) return;
@@ -26,8 +31,9 @@ export default function MarkFilter(props: MarkFilterProps) {
     onSearchChange(newFilter);
   };
 
-  const handleTypeChange = (value: number) => {
+  const handleTypeChange = async (value: number) => {
     if (!onChange) return;
+    await dispatch(productActions.fetchProgramDetail(value))
     const newFilter: ListParams = {
       ...filter,
       _page: 1,
@@ -105,6 +111,18 @@ export default function MarkFilter(props: MarkFilterProps) {
               size="large"
               placeholder="Programs"
               style={{ width: "230px" }}
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option!.children as unknown as string).includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA!.children as unknown as string)
+                  .toLowerCase()
+                  .localeCompare(
+                    (optionB!.children as unknown as string).toLowerCase()
+                  )
+              }
             >
               {programs?.map((item) => (
                 <Option key={item.id} value={item.id}>
@@ -119,13 +137,27 @@ export default function MarkFilter(props: MarkFilterProps) {
                 style={{
                   width: "150px",
                 }}
+                disabled={options ? false : true}
                 size="large"
                 placeholder="Setup"
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option!.children as unknown as string).includes(input)
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA!.children as unknown as string)
+                    .toLowerCase()
+                    .localeCompare(
+                      (optionB!.children as unknown as string).toLowerCase()
+                    )
+                }
               >
-                <Option value="Diamond">Diamond</Option>
-                <Option value="Gold">Gold</Option>
-                <Option value="Silver">Silver</Option>
-                <Option value="Bronze">Bronze</Option>
+                {options?.map((item, index) => (
+                  <Option key={index} value={item}>
+                    {item}
+                  </Option>
+                ))}
               </Select>
             ) : (
               <Select
@@ -134,10 +166,22 @@ export default function MarkFilter(props: MarkFilterProps) {
                 }}
                 size="large"
                 placeholder="Result"
+                showSearch
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option!.children as unknown as string).includes(input)
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA!.children as unknown as string)
+                    .toLowerCase()
+                    .localeCompare(
+                      (optionB!.children as unknown as string).toLowerCase()
+                    )
+                }
               >
-                <Option value={2}>Not achieved</Option>
-                <Option value={1}>Achieved</Option>
-                <Option value={99}>Expired</Option>
+                <Option key={1} value={2}>Not achieved</Option>
+                <Option key={2} value={1}>Achieved</Option>
+                <Option key={3} value={99}>Expired</Option>
               </Select>
             )}
           </Form.Item>

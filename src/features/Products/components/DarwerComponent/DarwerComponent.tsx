@@ -48,10 +48,6 @@ export default function DarwerComponent(props: DarwerComponentProps) {
   const [imageUrl, setImageUrl] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    form.resetFields();
-  }, [objectProduct]);
-
-  React.useEffect(() => {
     if (product) {
       (async () => {
         let newArray: any[] = [];
@@ -129,6 +125,7 @@ export default function DarwerComponent(props: DarwerComponentProps) {
   const hiddenDarwer = async () => {
     await setImageUrl(undefined);
     await setObjectProduct(undefined);
+    await form.resetFields();
     await setProduct(undefined);
     setLoading(false);
     onClose();

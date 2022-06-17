@@ -7,4 +7,8 @@ export const programApi = {
   getAll(params: ListParams): Promise<Program[]> {
     return axiosClient.get(urlApi, { params });
   },
+  getProgramDetail(id: number): Promise<Program> {
+    const url = `${urlApi}/${id}`;
+    return axiosClient.get(url);
+  },
 };

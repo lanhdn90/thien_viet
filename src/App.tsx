@@ -5,7 +5,8 @@ import { PrivateRoute } from "./components";
 import Login from "./features/Login/pages/Login";
 import Mark from "./features/Mark/pages/Mark";
 import Products from "./features/Products/pages/Products";
-import Programs from "./features/Programs/Programs";
+import AddEditProgram from "./features/Programs/pages/AddEditProgram/AddEditProgram";
+import Programs from "./features/Programs/pages/Programs/Programs";
 import Report from "./features/Report/pages/Report";
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<PrivateRoute />}>
+          <Route path="/Programs/Add" element={<AddEditProgram />} />
+          <Route path="/Programs/Edit/:programId" element={<AddEditProgram />} />
           <Route path="/Programs" element={<Programs />} />
           <Route path="/Products" element={<Products />} />
           <Route path="/Report" element={<Report />} />

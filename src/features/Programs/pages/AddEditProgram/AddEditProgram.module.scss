@@ -1,0 +1,44 @@
+.root {
+  height: 100%;
+  margin: 0 20px 20px;
+}
+
+.label_header_page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  font: {
+    size: 25px;
+    weight: 600;
+  }
+  line-height: 28px;
+}
+
+.container_page {
+  width: 100%;
+  height: calc(100% - 50px);
+  background-color: #fff;
+  border-radius: 10px;
+}
+.content_page {
+
+  width: 100%;
+  height: calc(100% - 50px);
+}
+
+.content_left {
+  border-right: 1px solid #1890ff;
+}
+
+.footer_page {
+    // background-color: ;
+    padding-right: 20px;
+    width: 100%;
+    height: 50px;
+    // border-top: 1px solid #1890ff;
+}
+.btn_save {
+  margin-left: 20px;
+}

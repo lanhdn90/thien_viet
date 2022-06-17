@@ -98,6 +98,18 @@ export default function ProductFilter(props: ProductFilterProps) {
               size="large"
               placeholder="Product type"
               style={{ width: "230px" }}
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option!.children as unknown as string).includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA!.children as unknown as string)
+                  .toLowerCase()
+                  .localeCompare(
+                    (optionB!.children as unknown as string).toLowerCase()
+                  )
+              }
             >
               {productType?.map((item) => (
                 <Option key={item.id} value={item.id}>
@@ -113,6 +125,18 @@ export default function ProductFilter(props: ProductFilterProps) {
               }}
               size="large"
               placeholder="Sort"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option!.children as unknown as string).includes(input)
+              }
+              filterSort={(optionA, optionB) =>
+                (optionA!.children as unknown as string)
+                  .toLowerCase()
+                  .localeCompare(
+                    (optionB!.children as unknown as string).toLowerCase()
+                  )
+              }
             >
               <Option value="id.asc">Id Asc</Option>
               <Option value="id.desc">Id Desc</Option>

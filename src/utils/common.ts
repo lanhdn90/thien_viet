@@ -38,6 +38,7 @@ export const convertDataReport = (
   let newArray: StoreReport[] = [];
   arrayStore.forEach((item: Store, index: number) => {
     let newObject: StoreReport = {
+      key: index + 1,
       Id: index + 1,
       Name: item.name,
       Address: item.address,

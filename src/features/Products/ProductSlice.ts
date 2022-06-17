@@ -9,11 +9,13 @@ export interface ProductState {
   filter: ListParams;
   pagination: PaginationParams;
   productType: ProductType[];
+  options?: string[];
 }
 
 const initialState: ProductState = {
   loading: false,
   list: [],
+  options: undefined,
   productType: [],
   filter: {
     _page: 1,
@@ -35,6 +37,14 @@ const productSlice = createSlice({
     },
     fetchProductTypeListSuccess(state, action: PayloadAction<ProductType[]>) {
       state.productType = action.payload;
+      state.loading = false;
+    },
+    fetchProgramDetail(state, action: PayloadAction<number>) {
+      state.loading = true;
+      state.options = undefined;
+    },
+    fetchProgramDetailSuccess(state, action: PayloadAction<string[]>) {
+      state.options = action.payload;
       state.loading = false;
     },
 
@@ -62,6 +72,7 @@ const productSlice = createSlice({
 export const productActions = productSlice.actions;
 
 export const selectProductList = (state: RootState) => state.product.list;
+export const selectOptions = (state: RootState) => state.product.options;
 export const selectProductLoading = (state: RootState) => state.product.loading;
 export const selectProductFilter = (state: RootState) => state.product.filter;
 export const selectProductPagination = (state: RootState) =>

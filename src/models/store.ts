@@ -12,6 +12,7 @@ export interface Store {
   images: string[];
 }
 export interface StoreReport {
+  key?: number
   Id: number;
   Name: string;
   Address: string;
